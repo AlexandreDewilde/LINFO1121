@@ -1,0 +1,2 @@
+# LINFO1121
+Solutions for LINFO1121
