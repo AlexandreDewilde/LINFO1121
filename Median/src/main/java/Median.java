@@ -110,16 +110,25 @@ public class Median {
      * @param hi the highest index from which the median is computed
      */
     public static int median(Vector vec, int lo, int hi) {
-        // TreeMap is a sorted datastructure where ops are O(log(n)) same complexity as solution using sorting but sorting is probably faster
-        TreeMap<Integer,Integer> mp = new TreeMap<Integer,Integer>();
-        for (int i = 0; i < vec.size();i++) mp.put(vec.get(i), mp.getOrDefault(vec.get(i), 0)+1);
-        int tot = 0;
-        Set<Map.Entry<Integer, Integer> > entries = mp.entrySet();
-        for (Map.Entry<Integer,Integer> entry: entries) {
-            tot += entry.getValue();
-            if (tot > vec.size()/2) return entry.getKey();
+        int k = vec.size() / 2;
+        while (hi > lo) {
+            int j = partition(vec, lo, hi);
+            if (j==k) return vec.get(j);
+            else if (j > k) hi = j - 1;
+            else lo = j + 1;
         }
-        return 0;
+        return vec.get(k);
+    }
+    private static int partition(Vector vec, int lo, int hi) {
+        int pivot = vec.get(hi);
+        int i = lo;
+        for (int j = lo; j <= hi - 1; j++) {
+            if (vec.get(j) < pivot) {
+                vec.swap(i++, j);
+            }
+        }
+        vec.swap(i, hi);
+        return i;
     }
 
 }
